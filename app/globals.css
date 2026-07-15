@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root{
+  --pink: #FF9FD6;
+  --pink-deep: #FF5FB8;
+  --blue: #8FE0FA;
+  --blue-deep: #45C6ED;
+  --lav: #D6B3F0;
+  --ink: #16141C;
+  --white: #FFFFFF;
+  --card-bg: #FAF8FC;
+  --muted: #8b8794;
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ink);
+  color: var(--ink);
+}
+
+.app-shell{
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+}
+
+.hud{
+  background: linear-gradient(90deg, var(--blue) 0%, var(--pink) 100%);
+  padding: 20px 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand{
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.points-pill{
+  background: var(--ink);
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.points-pill .dot{
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--pink-deep);
+  display: inline-block;
+}
+
+button{
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+}
+
+.btn-primary{
+  background: linear-gradient(90deg, var(--blue-deep), var(--pink-deep));
+  color: var(--ink);
+  border: none;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px;
+  border-radius: 16px;
+  width: 100%;
+}
+
+.btn-ghost{
+  background: transparent;
+  border: 1.5px solid #E3DEE8;
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  width: 100%;
+}
+
+input, textarea{
+  width: 100%;
+  border: 1.5px solid #E3DEE8;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 10px;
+}
+
+.tabbar{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 20px;
+  border-top: 1px solid #EEE9F1;
+  background: var(--white);
+  position: sticky;
+  bottom: 0;
+}
+
+.tabitem{
+  font-size: 11px;
+  color: #B3AEBB;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tabitem.active{ color: var(--ink); }
+
+.tabicon{
+  width: 18px; height: 18px;
+  border-radius: 5px;
+  background: #EDE9F0;
+}
+
+.tabitem.active .tabicon{
+  background: linear-gradient(135deg, var(--blue), var(--pink));
+}
