@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [confirmationSent, setConfirmationSent] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,16 +21,17 @@ export default function LoginPage() {
     setLoading(true);
 
     if (mode === 'signup') {
-      const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { display_name: displayName || 'New member' } }
+      });
       if (signUpError) { setError(signUpError.message); setLoading(false); return; }
 
-      if (data.user) {
-        const { error: profileError } = await supabase.from('profiles').insert({
-          id: data.user.id,
-          display_name: displayName || 'New member',
-          age: 18
-        });
-        if (profileError) { setError(profileError.message); setLoading(false); return; }
+      if (!data.session) {
+        setLoading(false);
+        setConfirmationSent(true);
+        return;
       }
     } else {
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
@@ -50,44 +52,6 @@ export default function LoginPage() {
         <div style={{ color: 'var(--muted)', fontSize: 13 }}>Swipe, match, and level up.</div>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        {mode === 'signup' && (
-          <input
-            placeholder="Display name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            required
-          />
-        )}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          minLength={6}
-          required
-        />
-
-        {error && <p style={{ color: 'var(--pink-deep)', fontSize: 13, marginBottom: 10 }}>{error}</p>}
-
-        <button type="submit" className="btn-primary" disabled={loading} style={{ marginBottom: 12 }}>
-          {loading ? 'One sec…' : mode === 'signup' ? 'Create account' : 'Sign in'}
-        </button>
-      </form>
-
-      <button
-        className="btn-ghost"
-        onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
-      >
-        {mode === 'signup' ? 'Already have an account? Sign in' : 'New here? Create an account'}
-      </button>
-    </div>
-  );
-}
+      {confirmationSent ? (
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ fontSize: 14, color: 'var(--ink)', marginBottom: 20
