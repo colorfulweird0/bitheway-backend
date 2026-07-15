@@ -20,17 +20,12 @@ export default function LoginPage() {
     setLoading(true);
 
     if (mode === 'signup') {
-      const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { display_name: displayName || 'New member' } }
+      });
       if (signUpError) { setError(signUpError.message); setLoading(false); return; }
-
-      if (data.user) {
-        const { error: profileError } = await supabase.from('profiles').insert({
-          id: data.user.id,
-          display_name: displayName || 'New member',
-          age: 18
-        });
-        if (profileError) { setError(profileError.message); setLoading(false); return; }
-      }
     } else {
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) { setError(signInError.message); setLoading(false); return; }
